@@ -1,0 +1,31 @@
+{
+  "name": "marketing-vtsd",
+  "version": "1.0.0",
+  "description": "Método de marketing digital do Venda Todo Santo Dia (Leandro Ladeira), destilado e adaptado para os negócios do Leonardo — Studio Delli. Cobre página de vendas de alta conversão, copywriting, VSL, anúncios, estratégia de tráfego, concepção de produto e conteúdo orgânico. Inclui os aprendizados práticos de construir páginas reais com geradores de IA.",
+  "author": {
+    "name": "Leonardo — Studio Delli",
+    "email": "contato@studiodelli.com.br"
+  },
+  "keywords": [
+    "copywriting",
+    "pagina-de-vendas",
+    "landing-page",
+    "vsl",
+    "trafego-pago",
+    "meta-ads",
+    "infoproduto",
+    "conversao",
+    "vtsd",
+    "marketing-digital"
+  ],
+  "skills": [
+    "./skills/pagina-de-vendas",
+    "./skills/copywriting",
+    "./skills/vsl",
+    "./skills/anuncios-meta",
+    "./skills/trafego-estrategia",
+    "./skills/produto-digital",
+    "./skills/conteudo-organico",
+    "./skills/transcrever-video"
+  ]
+}
