@@ -59,11 +59,20 @@ Idêntico ao NutriFlow: "Plano VendaFlow" R$ 99/mês ou anual −20% (R$ 79,20/m
 3. **Verificar tudo após cada build** com evidências (query_database, read_file, list_edits). Builds levam 5–15 min.
 4. Decisões de negócio são do Leo (preços, marca, funil); defaults sensatos quando ele disser "executa".
 
-## 6. Estado atual / pendências
+## 6. Estado atual / pendências (27/08/2026)
 
-- [x] Remix criado e verificado (13 tabelas, 18 funções, triggers, RLS, pg_cron reagendado)
-- [ ] Prompt 1 (adaptação de domínio completa) — enviado, verificar build com evidências
-- [ ] Prompt 2 (landing 12 seções com copy nova) — enviar após o prompt 1
-- [ ] Dados demo (10 clientes fictícios B2B) via SQL direto
-- [ ] Checklist de lançamento (cadastro→trial, proposta→ciclo, IA, paywall, admin, marca antiga zerada, pixel)
-- [ ] Leo: colar RESEND_API_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET; criar webhook Stripe; novo Meta Pixel; Publish no Lovable; domínio próprio depois
+**BACKEND PRONTO E TESTADO** (via SQL direto, sem créditos):
+- [x] Remix criado e verificado (13 tabelas + 2 novas, funções, triggers, RLS)
+- [x] pg_cron reagendado: `vendaflow-gerar-fila-diaria` jobid 1 (`net.http_post`, não `extensions.`)
+- [x] Migrations do Prompt 1: funil novo em consultas.status, colunas titulo/data_prevista_execucao/validade/motivo_perda, pacientes.empresa/cargo, ciclos.fase, etapas_pedido, anexos, configuracoes prevenda_toque1..4 (2/7/15/30) e posvenda_toque1..3 (7/30/90), mostrar_contratos
+- [x] Funções novas do funil: `tg_consulta_funil` ('enviada' abre ciclo pré-venda; 'ganha' encerra ciclo, ignora fila pendente e semeia 5 etapas; 'perdida'/'expirada' encerra tudo), `tg_etapa_pedido_concluida` (última etapa → ciclo pós-venda), `itens_ciclo_fase`
+- [x] `semear_templates` comercial (18 templates: prevenda_d2..d30, posvenda_1..3, aviso_pedido, etapa_pedido, execucao, pagamento, aniversario, reativação etc.)
+- [x] IA reescrita (`src/lib/ia.server.ts` + `ia.functions.ts`): redação consultiva por fase do funil, áudio pós-proposta estrutura resumo/próximos passos/próxima abordagem
+- [x] Dados demo: empresa "Delli Iluminação (Demo)" (id `11111111-1111-4111-8111-111111111111`, is_platform_admin, Full até 2027) com 10 clientes B2B cobrindo o funil inteiro — 9 ciclos pré-venda, 1 pós-venda (aberto pelo trigger ao concluir a 5ª etapa do Hotel Mar Azul), 16 mensagens na fila, interações com memória (⚠ pediu desconto / ⚠ achou caro / ✅ instalação ok). OBS: sem usuário auth vinculado — após o Leo se cadastrar, vincular com `UPDATE perfis SET clinica_id='11111111-...' WHERE user_id='<uid>'` ou usar a tela admin.
+
+**BLOQUEADO — workspace Lovable SEM CRÉDITOS** (lovable.dev/settings/billing):
+- [ ] UI do Prompt 1 (rebrand visual, telas com campos novos, checklist de execução, Arquivos, avisos, Configurações, Pixel) → reenviar `prompt-continuacao-ui.md`
+- [ ] Prompt 2: landing 12 seções → enviar `prompt-landing.md` (copy final pronta)
+- [ ] Checklist de lançamento pós-builds (cadastro→trial, paywall, marca antiga zerada no front)
+
+**Pendências do Leo:** adicionar créditos no Lovable · colar RESEND_API_KEY (o Lovable já pediu no chat), STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET · webhook novo no painel Stripe · novo Meta Pixel · Publish · domínio próprio depois
